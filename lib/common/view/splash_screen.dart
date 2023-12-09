@@ -33,8 +33,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
     final refreshToken = await storage.read(key: REFRESH_TOKEN_KEY);
     final accessToken = await storage.read(key: ACCESS_TOKEN_KEY);
-    print("refreshToken = $refreshToken");
-    print("accessToken = $accessToken");
     final dio = Dio();
 
     try {
