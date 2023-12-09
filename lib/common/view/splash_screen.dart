@@ -41,8 +41,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
       final res = await dio.post("http://$ip/auth/token",
           options: Options(
             headers: {
-              "authorization":
-                  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RAY29kZWZhY3RvcnkuYWkiLCJzdWIiOiJmNTViMzJkMi00ZDY4LTRjMWUtYTNjYS1kYTlkN2QwZDkyZTUiLCJ0eXBlIjoicmVmcmVzaCIsImlhdCI6MTcwMjEwNTAzOSwiZXhwIjoxNzAyMTkxNDM5fQ.nzz9QrpVexn0HzSH6eo0QXCcccyqQm1bLrV6cB2Ofns",
+              "authorization": "Bearer $refreshToken",
             },
           ));
       // $refreshToken
