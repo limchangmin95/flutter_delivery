@@ -4,21 +4,18 @@ import 'package:actual/common/component/custom_text_form_field.dart';
 import 'package:actual/common/const/colors.dart';
 import 'package:actual/common/const/data.dart';
 import 'package:actual/common/layout/default_layout.dart';
-import 'package:actual/common/secure_storage/secure_storage.dart';
 import 'package:actual/common/view/root_tab.dart';
-import 'package:actual/dio/dio.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class LoginScreen extends ConsumerStatefulWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  ConsumerState<LoginScreen> createState() => _LoginScreenState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends ConsumerState<LoginScreen> {
+class _LoginScreenState extends State<LoginScreen> {
   String username = "";
   String password = "";
 
@@ -26,6 +23,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   Widget build(BuildContext context) {
     final dio = Dio();
 
+    print("333333");
     return DefaultLayout(
       child: SingleChildScrollView(
         keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
@@ -85,8 +83,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
                     final refreshToken = res.data["refreshToken"];
                     final accessToken = res.data["accessToken"];
-
-                    final storage = ref.read(secureStorageProvider);
 
                     await storage.write(
                       key: REFRESH_TOKEN_KEY,
