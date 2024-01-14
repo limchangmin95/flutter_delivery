@@ -7,13 +7,14 @@ class CustomTextFormField extends StatelessWidget {
   final bool obscureText, autofocusText;
   final ValueChanged<String>? onChanged;
 
-  const CustomTextFormField(
-      {super.key,
-      this.hintText,
-      this.errorText,
-      this.obscureText = false,
-      this.autofocusText = false,
-      required this.onChanged});
+  const CustomTextFormField({
+    super.key,
+    this.hintText,
+    this.errorText,
+    this.obscureText = false,
+    this.autofocusText = false,
+    required this.onChanged,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -33,9 +34,9 @@ class CustomTextFormField extends StatelessWidget {
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.all(15),
         hintText: hintText,
-        fillColor: INPUT_BG_COLOR,
         // 배경색 입힐건지 말건지?
         filled: true,
+        fillColor: INPUT_BG_COLOR,
         border: baseBorder,
         enabledBorder: baseBorder,
         focusedBorder: baseBorder.copyWith(

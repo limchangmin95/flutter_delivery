@@ -30,7 +30,7 @@ class CustomInterceptor extends Interceptor {
   // 1) 요청을 받을때
   // 요청이 보내질때마다
   // 만약에 요청의 Header에 accessToken이 true라는 값이 있다면
-  // 실제 토큰을 가져와서 (storage에서) authorizatio: Bearer $token 으로
+  // 실제 토큰을 가져와서 (storage에서) authorization: Bearer $token 으로
   // 헤더를 변경한다.
   @override
   void onRequest(
@@ -40,8 +40,6 @@ class CustomInterceptor extends Interceptor {
     print("[REQ] [${options.method}] [${options.uri}]");
     if (options.headers["accessToken"] == "true") {
       // 기존의 헤더 삭제
-      print("accessToken START");
-
       options.headers.remove("accessToken");
       final token = await storage.read(key: ACCESS_TOKEN_KEY);
       // 실제 토큰으로 대체
@@ -57,7 +55,6 @@ class CustomInterceptor extends Interceptor {
       // 실제 토큰으로 대체
       options.headers.addAll({'authorization': "Bearer $token"});
     }
-    print("onRequest End");
 
     return super.onRequest(options, handler);
   }

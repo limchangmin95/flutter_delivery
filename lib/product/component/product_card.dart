@@ -45,37 +45,38 @@ class ProductCard extends StatelessWidget {
             width: 16.0,
           ),
           Expanded(
-              child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                name,
-                style: const TextStyle(
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.w500,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  name,
+                  style: const TextStyle(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
-              ),
-              Text(
-                detail,
-                overflow: TextOverflow.ellipsis,
-                maxLines: 2,
-                style: const TextStyle(
-                  color: BODY_TEXT_COLOR,
-                  fontSize: 14.0,
+                Text(
+                  detail,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: const TextStyle(
+                    color: BODY_TEXT_COLOR,
+                    fontSize: 14.0,
+                  ),
                 ),
-              ),
-              Text(
-                "₩$price",
-                textAlign: TextAlign.right,
-                style: const TextStyle(
-                  color: PRIMARY_COLOR,
-                  fontSize: 12.0,
-                  fontWeight: FontWeight.w500,
-                ),
-              )
-            ],
-          ))
+                Text(
+                  "₩$price",
+                  textAlign: TextAlign.right,
+                  style: const TextStyle(
+                    color: PRIMARY_COLOR,
+                    fontSize: 12.0,
+                    fontWeight: FontWeight.w500,
+                  ),
+                )
+              ],
+            ),
+          )
         ],
       ),
     );

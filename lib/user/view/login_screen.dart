@@ -6,7 +6,6 @@ import 'package:actual/common/const/data.dart';
 import 'package:actual/common/layout/default_layout.dart';
 import 'package:actual/common/secure_storage/secure_storage.dart';
 import 'package:actual/common/view/root_tab.dart';
-import 'package:actual/dio/dio.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -25,6 +24,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final dio = Dio();
+    // final dio = ref.watch(userMeProvider);
 
     return DefaultLayout(
       child: SingleChildScrollView(
@@ -102,8 +102,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         builder: (_) => const RootTab(),
                       ),
                     );
-
-                    print(res.data);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: PRIMARY_COLOR,

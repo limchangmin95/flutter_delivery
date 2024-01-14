@@ -11,16 +11,18 @@ void main() {
 }
 
 class _App extends StatelessWidget {
-  const _App({super.key});
+  const _App({
+    super.key,
+  });
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        theme: ThemeData(
-          fontFamily: "NotoSans",
-        ),
-        debugShowCheckedModeBanner: false,
-        home: const SplashScreen());
+      theme: ThemeData(
+        fontFamily: "NotoSans",
+      ),
+      debugShowCheckedModeBanner: false,
+      home: const SplashScreen(),
+    );
   }
 }
