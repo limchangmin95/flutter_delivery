@@ -1,5 +1,7 @@
 import 'package:actual/common/const/data.dart';
 import 'package:actual/common/secure_storage/secure_storage.dart';
+import 'package:actual/user/provider/auth_provider.dart';
+import 'package:actual/user/provider/user_me_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -12,6 +14,7 @@ final dioProvider = Provider<Dio>(
 
     dio.interceptors.add(
       CustomInterceptor(
+        ref: ref,
         storage: storage,
       ),
     );
@@ -21,9 +24,11 @@ final dioProvider = Provider<Dio>(
 );
 
 class CustomInterceptor extends Interceptor {
+  final Ref ref;
   final FlutterSecureStorage storage;
 
   CustomInterceptor({
+    required this.ref,
     required this.storage,
   });
 
@@ -42,9 +47,12 @@ class CustomInterceptor extends Interceptor {
       // 기존의 헤더 삭제
       options.headers.remove("accessToken");
       final token = await storage.read(key: ACCESS_TOKEN_KEY);
-      // 실제 토큰으로 대체
-      print("token = $token");
-      options.headers.addAll({'authorization': "Bearer $token"});
+      // 실제 토큰으로 대체;
+      options.headers.addAll(
+        {
+          'authorization': "Bearer $token",
+        },
+      );
     }
 
     if (options.headers["refreshToken"] == "true") {
@@ -90,7 +98,7 @@ class CustomInterceptor extends Interceptor {
 
     if (isStatus401 && !isPathRefresh) {
       final dio = Dio();
-
+      print('ERROR START!!!!');
       try {
         final res = await dio.post(
           "http://$ip/auth/token",
@@ -113,12 +121,17 @@ class CustomInterceptor extends Interceptor {
         );
 
         await storage.write(key: ACCESS_TOKEN_KEY, value: accessToken);
+        print('ERROR START!!!!');
 
         // 요청 재전송
         final response = await dio.fetch(options);
+        print('ERROR START!!!!');
 
         return handler.resolve(response);
       } on DioError catch (e) {
+        // circular dependency error
+        print('DioError START');
+        ref.read(authProvider.notifier).logout();
         return handler.reject(e);
       }
     }
