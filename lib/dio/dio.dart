@@ -41,9 +41,11 @@ class CustomInterceptor extends Interceptor {
   void onRequest(
       RequestOptions options, RequestInterceptorHandler handler) async {
     print("onRequest START");
-    print(options.headers);
     print("[REQ] [${options.method}] [${options.uri}]");
+
     if (options.headers["accessToken"] == "true") {
+      print("accessToken Start");
+
       // 기존의 헤더 삭제
       options.headers.remove("accessToken");
       final token = await storage.read(key: ACCESS_TOKEN_KEY);
@@ -56,13 +58,16 @@ class CustomInterceptor extends Interceptor {
     }
 
     if (options.headers["refreshToken"] == "true") {
-      // 기존의 헤더 삭제
       print("refreshToken Start");
+
+      // 기존의 헤더 삭제
       options.headers.remove("refreshToken");
       final token = await storage.read(key: REFRESH_TOKEN_KEY);
       // 실제 토큰으로 대체
       options.headers.addAll({'authorization': "Bearer $token"});
     }
+
+    print('options.headers : ${options.headers}');
 
     return super.onRequest(options, handler);
   }
@@ -121,16 +126,12 @@ class CustomInterceptor extends Interceptor {
         );
 
         await storage.write(key: ACCESS_TOKEN_KEY, value: accessToken);
-        print('ERROR START!!!!');
 
         // 요청 재전송
         final response = await dio.fetch(options);
-        print('ERROR START!!!!');
-
         return handler.resolve(response);
       } on DioError catch (e) {
         // circular dependency error
-        print('DioError START');
         ref.read(authProvider.notifier).logout();
         return handler.reject(e);
       }

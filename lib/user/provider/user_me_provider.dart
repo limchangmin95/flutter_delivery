@@ -34,7 +34,8 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
   }
 
   Future<void> getMe() async {
-    String? refreshToken = await storage.read(key: REFRESH_TOKEN_KEY);
+    final refreshToken = await storage.read(key: REFRESH_TOKEN_KEY);
+    // String? refreshToken = await storage.read(key: REFRESH_TOKEN_KEY);
     final accessToken = await storage.read(key: ACCESS_TOKEN_KEY);
 
     print('refreshToken : $refreshToken');
@@ -45,8 +46,10 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
       return;
     }
 
+    print('LCM START!!!!');
     final res = await repository.getMe();
-
+    print(res);
+    print("LCM END !!!!!");
     state = res;
   }
 
