@@ -1,3 +1,4 @@
+import 'package:actual/common/const/colors.dart';
 import 'package:actual/common/model/cursor_pagination_model.dart';
 import 'package:actual/common/model/model_with_id.dart';
 import 'package:actual/common/provider/pagination_provider.dart';
@@ -56,7 +57,9 @@ class _PaginationListViewState<T extends IModelWithId>
     // 완전 처음 로딩
     if (state is CursorPaginationLoading) {
       return const Center(
-        child: CircularProgressIndicator(),
+        child: CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation(PRIMARY_COLOR),
+        ),
       );
     }
     // 에러
@@ -93,33 +96,46 @@ class _PaginationListViewState<T extends IModelWithId>
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: ListView.separated(
-        controller: controller,
-        itemCount: cp.data.length + 1,
-        separatorBuilder: (_, idx) {
-          return const SizedBox(
-            height: 16.0,
-          );
+      child: RefreshIndicator(
+        color: PRIMARY_COLOR,
+        onRefresh: () async {
+          ref.read(widget.provider.notifier).paginate(
+                forceRefetch: true,
+              );
         },
-        itemBuilder: (_, idx) {
-          if (idx == cp.data.length) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16.0,
-                vertical: 8.0,
-              ),
-              child: Center(
-                child: cp is CursorPaginationFetchingMore
-                    ? const CircularProgressIndicator()
-                    : const Text("마지막 데이터입니다. ㅠㅠ"),
-              ),
+        child: ListView.separated(
+          physics: const AlwaysScrollableScrollPhysics(),
+          controller: controller,
+          itemCount: cp.data.length + 1,
+          separatorBuilder: (_, idx) {
+            return const SizedBox(
+              height: 16.0,
             );
-          }
+          },
+          itemBuilder: (_, idx) {
+            if (idx == cp.data.length) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16.0,
+                  vertical: 8.0,
+                ),
+                child: Center(
+                  child: cp is CursorPaginationFetchingMore
+                      ? const CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation(
+                            PRIMARY_COLOR,
+                          ),
+                        )
+                      : const Text("마지막 데이터입니다."),
+                ),
+              );
+            }
 
-          final pItem = cp.data[idx];
+            final pItem = cp.data[idx];
 
-          return widget.itemBuilder(context, idx, pItem);
-        },
+            return widget.itemBuilder(context, idx, pItem);
+          },
+        ),
       ),
     );
   }

@@ -19,7 +19,7 @@ class _ProductRepository implements ProductRepository {
   String? baseUrl;
 
   @override
-  Future<CursorPagination<ProductModel>> pagenate(
+  Future<CursorPagination<ProductModel>> paginate(
       {params = const PaginationParams()}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};

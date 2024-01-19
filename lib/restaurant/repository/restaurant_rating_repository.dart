@@ -30,7 +30,7 @@ abstract class RestaurantRatingRepository
   @Headers({
     "accessToken": "true",
   })
-  Future<CursorPagination<RatingModel>> pagenate({
+  Future<CursorPagination<RatingModel>> paginate({
     @Queries() PaginationParams? params = const PaginationParams(),
   });
 }

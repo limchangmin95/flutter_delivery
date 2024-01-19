@@ -35,7 +35,7 @@ abstract class RestaurantRepository
       "accessToken": "true",
     },
   )
-  Future<CursorPagination<RestaurantModel>> pagenate({
+  Future<CursorPagination<RestaurantModel>> paginate({
     @Queries() PaginationParams? params = const PaginationParams(),
   });
 
